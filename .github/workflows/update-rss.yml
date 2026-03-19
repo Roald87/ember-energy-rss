@@ -24,8 +24,16 @@ jobs:
       - name: Run unit tests
         run: dotnet run --project EmberEnergyRss.Tests/EmberEnergyRss.Tests.fsproj
 
+      - name: Fetch articles
+        run: |
+          curl -fSs \
+            -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:124.0) Gecko/20100101 Firefox/124.0" \
+            -H "Accept: application/json" \
+            "https://ember-energy.org/wp-json/wp/v2/insight_page?per_page=100&_fields=title,link,date&orderby=date&order=desc" \
+            -o articles.json
+
       - name: Generate RSS feed
-        run: dotnet run --project EmberEnergyRss/EmberEnergyRss.fsproj -- rss.xml
+        run: dotnet run --project EmberEnergyRss/EmberEnergyRss.fsproj -- rss.xml articles.json
 
       - name: Validate RSS XML
         run: xmllint --noout rss.xml
