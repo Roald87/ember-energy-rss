@@ -1,8 +1,4 @@
 <Solution>
-  <Folder Name="/src/">
-    <Project Path="src/EmberEnergyRss/EmberEnergyRss.fsproj" />
-  </Folder>
-  <Folder Name="/tests/">
-    <Project Path="tests/EmberEnergyRss.Tests/EmberEnergyRss.Tests.fsproj" />
-  </Folder>
+  <Project Path="EmberEnergyRss/EmberEnergyRss.fsproj" />
+  <Project Path="EmberEnergyRss.Tests/EmberEnergyRss.Tests.fsproj" />
 </Solution>

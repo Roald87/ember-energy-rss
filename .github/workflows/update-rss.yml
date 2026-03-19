@@ -22,10 +22,10 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: Run unit tests
-        run: dotnet run --project tests/EmberEnergyRss.Tests/EmberEnergyRss.Tests.fsproj
+        run: dotnet run --project EmberEnergyRss.Tests/EmberEnergyRss.Tests.fsproj
 
       - name: Generate RSS feed
-        run: dotnet run --project src/EmberEnergyRss/EmberEnergyRss.fsproj -- rss.xml
+        run: dotnet run --project EmberEnergyRss/EmberEnergyRss.fsproj -- rss.xml
 
       - name: Validate RSS XML
         run: xmllint --noout rss.xml

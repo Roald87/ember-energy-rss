@@ -17,7 +17,7 @@ Read it in your browser with [RSS Reader](https://rssrdr.com/?rss=https://raw.gi
 ### Run unit tests (uses local JSON fixture, no network)
 
 ```bash
-dotnet run --project tests/EmberEnergyRss.Tests/EmberEnergyRss.Tests.fsproj
+dotnet run --project EmberEnergyRss.Tests/EmberEnergyRss.Tests.fsproj
 ```
 
 ### Generate feed from a local JSON file
@@ -25,20 +25,20 @@ dotnet run --project tests/EmberEnergyRss.Tests/EmberEnergyRss.Tests.fsproj
 The main program accepts an optional second argument: a path to a local JSON file in the same format as the [WordPress REST API](https://ember-energy.org/wp-json/wp/v2/insight_page?per_page=100&_fields=title,link,date&orderby=date&order=desc).
 
 ```bash
-dotnet run --project src/EmberEnergyRss/EmberEnergyRss.fsproj -- /tmp/test.rss tests/EmberEnergyRss.Tests/fixture.json
+dotnet run --project EmberEnergyRss/EmberEnergyRss.fsproj -- /tmp/test.rss EmberEnergyRss.Tests/fixture.json
 ```
 
 ### Generate feed from the live site
 
 ```bash
-dotnet run --project src/EmberEnergyRss/EmberEnergyRss.fsproj -- /tmp/test.rss
+dotnet run --project EmberEnergyRss/EmberEnergyRss.fsproj -- /tmp/test.rss
 xmllint --noout /tmp/test.rss && echo "Valid"
 ```
 
 ### Live integration test (fetches ember-energy.org)
 
 ```bash
-EMBER_TEST_LIVE=1 dotnet run --project tests/EmberEnergyRss.Tests/EmberEnergyRss.Tests.fsproj
+EMBER_TEST_LIVE=1 dotnet run --project EmberEnergyRss.Tests/EmberEnergyRss.Tests.fsproj
 ```
 
 ### Requirements
