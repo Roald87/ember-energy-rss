@@ -10,4 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="../../src/EmberEnergyRss/EmberEnergyRss.fsproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="fixture.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>

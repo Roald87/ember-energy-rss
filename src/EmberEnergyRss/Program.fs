@@ -16,17 +16,17 @@ let main argv =
         if argv.Length > 1 then Some argv.[1]
         else None
 
-    let source, html =
+    let apiUrl = "https://ember-energy.org/wp-json/wp/v2/insight_page?per_page=100&_fields=title,link,date&orderby=date&order=desc"
+
+    let source, json =
         match inputPath with
         | Some path ->
             path, File.ReadAllText(path)
         | None ->
-            let url = "https://ember-energy.org/latest-insights/"
             use client = new HttpClient()
-            client.DefaultRequestHeaders.UserAgent.ParseAdd("EmberEnergyRss/1.0")
-            url, client.GetStringAsync(url).Result
+            apiUrl, client.GetStringAsync(apiUrl).Result
 
-    let articles = parseArticles html
+    let articles = parseArticles json
 
     if articles.IsEmpty then
         eprintfn "ERROR: No articles parsed from %s — aborting to preserve existing feed." source

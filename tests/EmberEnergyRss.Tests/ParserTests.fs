@@ -5,12 +5,11 @@ open System.IO
 open EmberEnergyRss.Parser
 open EmberEnergyRss.RssGenerator
 
-// Path to the saved HTML fixture, relative to this source file
-let private htmlFixturePath =
-    Path.Combine(__SOURCE_DIRECTORY__, "..", "..", "Latest Insights _ Ember.html")
+let private fixturePath =
+    Path.Combine(__SOURCE_DIRECTORY__, "fixture.json")
 
 let private loadFixture () =
-    File.ReadAllText(htmlFixturePath)
+    File.ReadAllText(fixturePath)
 
 let private check label ok =
     if ok then
@@ -19,27 +18,19 @@ let private check label ok =
         failwithf "FAIL  %s" label
 
 let runUnitTests () =
-    let html = loadFixture ()
-    let articles = parseArticles html
+    let json = loadFixture ()
+    let articles = parseArticles json
 
-    check "article count is 16" (articles.Length = 16)
+    check "article count is 20" (articles.Length = 20)
 
     let first = articles.[0]
-    check "first article title" (first.Title = "The energy security fallout: from fossil fuel fragility to electric independence")
-    check "first article link" (first.Link = "https://ember-energy.org/latest-insights/the-energy-security-fall-out-from-fossil-fuel-fragility-to-electric-independence")
-    check "first article date" (first.Date = DateTime(2026, 3, 18))
+    check "first article title" (first.Title = "Solar growth in South Asia has cut fuel imports for power but deeper reductions need electrification and regional grids")
+    check "first article link" (first.Link = "https://ember-energy.org/latest-insights/solar-growth-in-south-asia-has-cut-fuel-imports-for-power-but-deeper-reductions-need-electrification-and-regional-grids")
+    check "first article date" (first.Date = DateTime(2026, 3, 19, 0, 1, 0))
 
-    // Article with <br> tag in title (originally "...Assessment<br>")
+    // Article with <br> tag in title
     let brArticle = articles |> List.find (fun a -> a.Link.Contains("european-resource-adequacy-assessment-2"))
     check "<br> stripped from title" (not (brArticle.Title.Contains("<br>")) && brArticle.Title.EndsWith("European Resource Adequacy Assessment"))
-
-    // Date with leading zero ("03 March 2026")
-    let leadingZeroArticle = articles |> List.find (fun a -> a.Date = DateTime(2026, 3, 3))
-    check "leading-zero day parsed correctly" (leadingZeroArticle.Date.Day = 3)
-
-    // Date with leading zero ("09 February 2026")
-    let singleDigitArticle = articles |> List.find (fun a -> a.Date = DateTime(2026, 2, 9))
-    check "single-digit day (09) parsed correctly" (singleDigitArticle.Date.Day = 9)
 
     // Sort order: descending by date
     let dates = articles |> List.map (fun a -> a.Date)
@@ -57,9 +48,9 @@ let runLiveTest () =
     printfn ""
     printfn "=== Live integration test ==="
     use client = new System.Net.Http.HttpClient()
-    client.DefaultRequestHeaders.UserAgent.ParseAdd("EmberEnergyRss/1.0")
-    let html = client.GetStringAsync("https://ember-energy.org/latest-insights/").Result
-    let articles = parseArticles html
+    let url = "https://ember-energy.org/wp-json/wp/v2/insight_page?per_page=100&_fields=title,link,date&orderby=date&order=desc"
+    let json = client.GetStringAsync(url).Result
+    let articles = parseArticles json
     if articles.IsEmpty then
         failwith "Live test: no articles parsed from ember-energy.org"
     else

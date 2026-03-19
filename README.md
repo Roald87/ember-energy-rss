@@ -14,16 +14,18 @@ Read it in your browser with [RSS Reader](https://rssrdr.com/?rss=https://raw.gi
 
 ## For developers
 
-### Run unit tests (uses local HTML fixture, no network)
+### Run unit tests (uses local JSON fixture, no network)
 
 ```bash
 dotnet run --project tests/EmberEnergyRss.Tests/EmberEnergyRss.Tests.fsproj
 ```
 
-### Generate feed from a local HTML file
+### Generate feed from a local JSON file
+
+The main program accepts an optional second argument: a path to a local JSON file in the same format as the [WordPress REST API](https://ember-energy.org/wp-json/wp/v2/insight_page?per_page=100&_fields=title,link,date&orderby=date&order=desc).
 
 ```bash
-dotnet run --project src/EmberEnergyRss/EmberEnergyRss.fsproj -- /tmp/test.rss "Latest Insights _ Ember.html"
+dotnet run --project src/EmberEnergyRss/EmberEnergyRss.fsproj -- /tmp/test.rss tests/EmberEnergyRss.Tests/fixture.json
 ```
 
 ### Generate feed from the live site
