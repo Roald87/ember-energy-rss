@@ -1,5 +1,7 @@
 # Ember Energy RSS Feed
 
+> Archive, no need for the project. THere is an rss feed https://ember-energy.org/feed/?post_type=insight_page.
+
 Unofficial RSS feed for [Ember Energy – Latest Insights](https://ember-energy.org/latest-insights/).
 
 ## Subscribe
